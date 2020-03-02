@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <insert id="save" parameterType="com.example.demo.model.User">
+        INSERT INTO USER
+        (name, sex, address, operator, create_time)
+        VALUES
+        (#{name, jdbcType=VARCHAR },
+        #{sexEnum, jdbcType=VARCHAR },
+        #{addressEnum, jdbcType=VARCHAR },
+        #{operator, jdbcType=VARCHAR }, now())
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.model.User">
+        UPDATE USER
+        SET
+        name = #{name, jdbcType=VARCHAR},
+        sex = #{sexEnum},
+        address = #{addressEnum},
+        operator #{operator},
+        update_time = now()
+        where id = #{id}
+    </update>
+
+    <resultMap id="userMap" type="com.example.demo.model.User">
+        <id column="id" property="id"/>
+        <id column="name" property="name"/>
+        <id column="sex" property="sexEnum"/>
+        <result column="address" property="addressEnum"/>
+    </resultMap>
+
+    <select id="query" parameterType="long" resultMap="userMap">
+        SELECT * FROM USER WHERE `id` = #{id}
+    </select>
+
+</mapper>
